@@ -15,21 +15,21 @@ const Spaceships = (props) => {
     e.preventDefault();
 
     const getData = async () => {
-      dispatch(Creators.fetchDataRequest());
+      dispatch(Creators.fetchSpaceshipRequest(searchTerm));
 
-      try {
-        const {
-          data: { results },
-        } = await axios.get(
-          `https://itunes.apple.com/search?term=${searchTerm}`
-        );
+      // try {
+      //   const {
+      //     data: { results },
+      //   } = await axios.get(
+      //     `https://itunes.apple.com/search?term=${searchTerm}`
+      //   );
 
-        console.log(results);
+      //   console.log(results);
 
-        dispatch(Creators.fetchDataSuccess(results));
-      } catch (error) {
-        dispatch(Creators.fetchDataFail(error));
-      }
+      //   dispatch(Creators.fetchDataSuccess(results));
+      // } catch (error) {
+      //   dispatch(Creators.fetchDataFail(error));
+      // }
     };
 
     getData();

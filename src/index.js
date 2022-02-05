@@ -1,12 +1,16 @@
+import "antd/dist/antd.less";
 import ReactDOM from "react-dom";
-// import { StrictMode } from "react";
-import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
 
 import "./index.css";
 import App from "./App";
 import store from "./redux/store";
 import reportWebVitals from "./reportWebVitals";
+
+// Import axios Global config
+// eslint-disable-next-line no-unused-vars
+import { axiosClient } from "./utilities/axiosClient";
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(
