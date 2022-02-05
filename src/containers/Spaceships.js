@@ -16,11 +16,23 @@ const Spaceships = () => {
     dispatch(dispatch(Creators.fetchSpaceshipRequest()));
   }, []);
 
+  const addToFleet = (spaceship) => {
+    dispatch(Creators.addToFleetRequest(spaceship));
+  };
+
   const spaceships = useSelector(getSpaceships);
-  const { loading, data } = spaceships;
+  const {
+    list: { loading, data },
+    fleet,
+  } = spaceships;
   const renderCardContent = (spaceship) => {
     return (
-      <Card style={{ marginTop: 16 }} loading={loading} hoverable>
+      <Card
+        style={styles.card_style}
+        loading={loading}
+        hoverable
+        key={spaceship.key}
+      >
         <Meta
           title={<Tooltip title="Name">{spaceship?.name}</Tooltip>}
           description={
@@ -33,7 +45,11 @@ const Spaceships = () => {
                 <p>{spaceship?.model}</p>
               </Tooltip>
               <Tooltip title="Add to fleet">
-                <Button shape="circle" icon={<PlusCircleFilled />} />
+                <Button
+                  shape="circle"
+                  icon={<PlusCircleFilled />}
+                  onClick={() => addToFleet(spaceship)}
+                />
               </Tooltip>
             </div>
           }
@@ -51,18 +67,24 @@ const Spaceships = () => {
             {data?.results?.map((row) => renderCardContent(row))}
           </Col>
           <Col span={8} gutter={8}>
-            <Card style={{ width: "95%", marginTop: 16 }} loading={loading}>
-              <Meta
-                avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                title="Card title"
-                description="This is the description"
-              />
+            <Card style={styles.card_style} loading={loading}>
+              <Meta title={<h2 style={styles.fleet_header}>Your Fleet</h2>} />
             </Card>
           </Col>
         </Row>
       </div>
     </Spin>
   );
+};
+
+export const styles = {
+  card_style: {
+    marginTop: 10,
+    borderRadius: 10,
+  },
+  fleet_header: {
+    textAlign: "center",
+  },
 };
 
 export default Spaceships;
