@@ -50,7 +50,6 @@ export const addToFleet = (state = initialState, { spaceship }) => {
   const index = state?.fleet?.data?.findIndex(
     (row) => row.key === spaceship?.key
   );
-  console.log("🚀 ~ addToFleet ~ index", index)
   if (index < 0) {
     result = [...state.fleet.data, spaceship];
 

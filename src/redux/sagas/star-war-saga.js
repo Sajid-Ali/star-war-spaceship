@@ -5,7 +5,7 @@ import starWarAction from "../Reducers/star-war-reducers";
 
 export function* workerFetchList(action) {
   try {
-    const response = yield axios.get(`starships/?${action.page}`);
+    const response = yield axios.get(`starships/?${action.query}`);
     const {
       data: { results },
     } = response;
