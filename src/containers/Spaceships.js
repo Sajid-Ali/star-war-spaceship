@@ -93,7 +93,9 @@ const Spaceships = () => {
                           <Button
                             shape="circle"
                             icon={<DeleteOutlined />}
-                            // onClick={() => Link}
+                            onClick={() =>
+                              dispatch(Creators.deleteFromFleet(row))
+                            }
                           />
                         </Tooltip>,
                       ]}

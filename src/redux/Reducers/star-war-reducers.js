@@ -7,6 +7,7 @@ const { Types, Creators } = createActions({
   fetchSpaceshipFail: ["error"],
 
   addToFleetRequest: ["spaceship"],
+  deleteFromFleet: ["spaceship"],
 });
 
 export const StarWarTypes = Types;
@@ -62,6 +63,23 @@ export const addToFleet = (state = initialState, { spaceship }) => {
     return state;
   }
 };
+export const deleteFromFleet = (state = initialState, { spaceship }) => {
+  let result = state.fleet.data;
+  const index = state?.fleet?.data?.findIndex(
+    (row) => row.key === spaceship?.key
+  );
+  if (index > -1) {
+    result.splice(index, 1);
+
+    return {
+      ...state,
+      fleet: { ...state.fleet, data: result },
+    };
+  } else {
+    message.warning("Item not exist in your fleet");
+    return state;
+  }
+};
 
 // map our action types to our reducer functions
 export const HANDLERS = {
@@ -69,6 +87,7 @@ export const HANDLERS = {
   [Types.FETCH_SPACESHIP_SUCCESS]: fetchListSuccess,
   [Types.FETCH_SPACESHIP_FAIL]: fetchListFail,
   [Types.ADD_TO_FLEET_REQUEST]: addToFleet,
+  [Types.DELETE_FROM_FLEET]: deleteFromFleet,
 };
 
 export const reducer = createReducer(initialState, HANDLERS);
