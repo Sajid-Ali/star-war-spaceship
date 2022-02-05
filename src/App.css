@@ -1,7 +1,4 @@
 .App {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
   margin: 0px 5rem;
 }
 
@@ -38,4 +35,16 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.wrapper {
+  padding: 20px 40px;
+}
+
+.conter_holder {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }

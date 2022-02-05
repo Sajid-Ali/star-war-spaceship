@@ -1,4 +1,5 @@
-import "antd/dist/antd.less";
+/* eslint-disable no-unused-vars */
+import "antd/dist/antd.min.css";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
@@ -9,7 +10,6 @@ import store from "./redux/store";
 import reportWebVitals from "./reportWebVitals";
 
 // Import axios Global config
-// eslint-disable-next-line no-unused-vars
 import { axiosClient } from "./utilities/axiosClient";
 
 const rootElement = document.getElementById("root");

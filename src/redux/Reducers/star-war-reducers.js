@@ -11,12 +11,12 @@ export default Creators;
 
 const initialState = {
   loading: false,
-  data: [],
+  data: null,
   error: false,
 };
 
 export const fetchListRequest = (state = initialState, action) => {
-  return { ...state, loading: true, data: [], error: false };
+  return { ...state, loading: true, data: null, error: false };
 };
 
 export const fetchListSuccess = (state = initialState, action) => {

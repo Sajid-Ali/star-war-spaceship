@@ -1,53 +1,67 @@
-import axios from "axios";
-import React, { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from "react";
+import { Spin, Card, Avatar, Row, Col, Tooltip, Button } from "antd";
 import { useSelector, useDispatch } from "react-redux";
+import { PlusCircleFilled } from "@ant-design/icons";
+
 import Creators from "../redux/Reducers/star-war-reducers";
 import { getSpaceships } from "../redux/selectors/star-war-selectors";
 
-const Spaceships = (props) => {
-  const [searchTerm, setSearchTerm] = useState("");
+const { Meta } = Card;
+
+const Spaceships = () => {
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(dispatch(Creators.fetchSpaceshipRequest()));
+  }, []);
+
   const spaceships = useSelector(getSpaceships);
-  const { loading, data, error } = spaceships;
+  const { loading, data } = spaceships;
+  const renderCardContent = (spaceship) => {
+    return (
+      <Card style={{ marginTop: 16 }} loading={loading} hoverable>
+        <Meta
+          title={<Tooltip title="Name">{spaceship?.name}</Tooltip>}
+          description={
+            <div className="conter_holder">
+              <Tooltip title="Manufacturer">
+                <p>{spaceship?.manufacturer}</p>
+              </Tooltip>
 
-  const submitHandler = (e) => {
-    e.preventDefault();
-
-    const getData = async () => {
-      dispatch(Creators.fetchSpaceshipRequest(searchTerm));
-
-      // try {
-      //   const {
-      //     data: { results },
-      //   } = await axios.get(
-      //     `https://itunes.apple.com/search?term=${searchTerm}`
-      //   );
-
-      //   console.log(results);
-
-      //   dispatch(Creators.fetchDataSuccess(results));
-      // } catch (error) {
-      //   dispatch(Creators.fetchDataFail(error));
-      // }
-    };
-
-    getData();
-    // console.log("On submit handler clicked!");
+              <Tooltip title="Model">
+                <p>{spaceship?.model}</p>
+              </Tooltip>
+              <Tooltip title="Add to fleet">
+                <Button shape="circle" icon={<PlusCircleFilled />} />
+              </Tooltip>
+            </div>
+          }
+        />
+      </Card>
+    );
   };
 
   return (
-    <form onSubmit={submitHandler}>
-      {loading && <p>Loading...</p>}
-      <h1> Home Container</h1>
-
-      <input
-        placeholder="Search..."
-        type="text"
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-      <button>Go</button>
-    </form>
+    <Spin spinning={loading} size="large" tip="loading">
+      <div className="wrapper">
+        <Row gutter={12}>
+          <Col span={16}>
+            <h2>Star war spaceships</h2>
+            {data?.results?.map((row) => renderCardContent(row))}
+          </Col>
+          <Col span={8} gutter={8}>
+            <Card style={{ width: "95%", marginTop: 16 }} loading={loading}>
+              <Meta
+                avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                title="Card title"
+                description="This is the description"
+              />
+            </Card>
+          </Col>
+        </Row>
+      </div>
+    </Spin>
   );
 };
 
