@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from "react";
-import { Spin, Card, Avatar, Row, Col, Tooltip, Button } from "antd";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
 import { PlusCircleFilled } from "@ant-design/icons";
+import { useSelector, useDispatch } from "react-redux";
+import { Spin, Card, Row, Col, Tooltip, Button, Pagination } from "antd";
 
 import Creators from "../redux/Reducers/star-war-reducers";
 import { getSpaceships } from "../redux/selectors/star-war-selectors";
@@ -10,11 +10,16 @@ import { getSpaceships } from "../redux/selectors/star-war-selectors";
 const { Meta } = Card;
 
 const Spaceships = () => {
+  const [current, setCurrent] = useState(1);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(dispatch(Creators.fetchSpaceshipRequest()));
+    fetchSpaceShips();
   }, []);
+
+  const fetchSpaceShips = (page = 1) => {
+    dispatch(dispatch(Creators.fetchSpaceshipRequest(`?page=${page}`)));
+  };
 
   const addToFleet = (spaceship) => {
     dispatch(Creators.addToFleetRequest(spaceship));
@@ -58,6 +63,11 @@ const Spaceships = () => {
     );
   };
 
+  const onChange = (page) => {
+    setCurrent(page);
+    if (current !== page) fetchSpaceShips(page);
+  };
+
   return (
     <Spin spinning={loading} size="large" tip="loading">
       <div className="wrapper">
@@ -65,6 +75,19 @@ const Spaceships = () => {
           <Col span={16}>
             <h2>Star war spaceships</h2>
             {data?.results?.map((row) => renderCardContent(row))}
+            {data?.results?.length > 0 && (
+              <div className="pagination">
+                <Pagination
+                  current={current}
+                  responsive={true}
+                  onChange={onChange}
+                  total={data?.count || 0}
+                  showTotal={(total, range) =>
+                    `${range[0]}-${range[1]} of ${total} spaceships`
+                  }
+                />
+              </div>
+            )}
           </Col>
           <Col span={8} gutter={8}>
             <Card style={styles.card_style} loading={loading}>

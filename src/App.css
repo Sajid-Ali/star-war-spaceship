@@ -48,3 +48,8 @@
   align-items: center;
   justify-content: space-between;
 }
+
+.pagination {
+  margin-top: 15px;
+  margin-bottom: 15px ;
+}
