@@ -27,6 +27,7 @@ const Spaceships = () => {
   const [current, setCurrent] = useState(1);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const spaceships = useSelector(getSpaceships);
 
   useEffect(() => {
     fetchSpaceShips();
@@ -40,7 +41,6 @@ const Spaceships = () => {
     dispatch(Creators.addToFleetRequest(spaceship));
   };
 
-  const spaceships = useSelector(getSpaceships);
   const {
     list: { loading, data },
     fleet,
@@ -160,7 +160,10 @@ const Spaceships = () => {
     if (current !== page) fetchSpaceShips(page);
   };
 
-  const handleClick = (state) => navigate("/details", { state });
+  const handleClick = (state) => {
+    dispatch(Creators.setSelectedSpaceship(state));
+    navigate("/details");
+  };
 
   return (
     <Spin spinning={loading} size="large" tip="loading">

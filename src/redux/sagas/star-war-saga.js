@@ -10,12 +10,14 @@ export function* workerFetchList(action) {
       data: { results },
     } = response;
     const list = results?.map((row, index) => {
-      const total_capacity =
-        parseInt(row?.passengers, 10 || 0) + parseInt(row?.crew, 10 || 0);
+      const crew = parseInt(row?.crew, 10);
+      const passengers = parseInt(row?.passengers, 10);
+      const total_capacity = (crew || 0) + (passengers || 0);
       const formated_data = {
         ...row,
-        belongToFleet: false,
+        count: 0,
         total_capacity,
+        belongToFleet: false,
         key: `${index}-${row?.name}-${row?.model}`,
       };
       return formated_data;
