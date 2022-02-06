@@ -7,6 +7,7 @@ import {
   Col,
   Spin,
   Card,
+  Input,
   Button,
   Divider,
   Tooltip,
@@ -23,6 +24,7 @@ import Creators from "../redux/Reducers/star-war-reducers";
 import { getSpaceships } from "../redux/selectors/star-war-selectors";
 
 const { Meta } = Card;
+const { Search } = Input;
 
 const Spaceships = () => {
   const [current, setCurrent] = useState(1);
@@ -38,6 +40,12 @@ const Spaceships = () => {
     dispatch(dispatch(Creators.fetchSpaceshipRequest(`page=${page}`)));
   };
 
+  const searchBy = (value) => {
+    dispatch(
+      dispatch(Creators.fetchSpaceshipRequest(`name=${value}&model=${value}`))
+    );
+  };
+
   const addToFleet = (spaceship) => {
     dispatch(Creators.addToFleetRequest(spaceship));
   };
@@ -47,10 +55,17 @@ const Spaceships = () => {
     fleet,
   } = spaceships;
 
+  const onSearch = (value) => {
+    searchBy(value);
+  };
+
   const renderSpeceships = () => {
     return (
       <Col span={16}>
-        <h2>Star war spaceships</h2>
+        <div style={styles.header}>
+          <h2>Star war spaceships</h2>
+          <Search placeholder="Search..." onSearch={onSearch} enterButton />
+        </div>
         {data?.results?.map((row) => renderCardContent(row))}
         {data?.results?.length > 0 && (
           <div className="pagination">
@@ -199,6 +214,11 @@ export const styles = {
   },
   fleet_content: {},
   fleet_action: {},
+  header: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
 };
 
 export default Spaceships;

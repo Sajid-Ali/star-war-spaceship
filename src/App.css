@@ -53,3 +53,7 @@
   margin-top: 15px;
   margin-bottom: 15px ;
 }
+
+.ant-input-group-wrapper {
+  width: 30% !important;
+}
