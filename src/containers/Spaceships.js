@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -19,12 +20,12 @@ import {
 
 import Creators from "../redux/Reducers/star-war-reducers";
 import { getSpaceships } from "../redux/selectors/star-war-selectors";
-import history from "../history";
 
 const { Meta } = Card;
 
 const Spaceships = () => {
   const [current, setCurrent] = useState(1);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -73,54 +74,48 @@ const Spaceships = () => {
         <Card style={styles.card_style} loading={loading}>
           <Meta title={<h2 style={styles.fleet_header}>Your Fleet</h2>} />
           <div style={styles.fleet_content}>
-            <Row>
-              <Col span={24}>
-                {fleet?.data?.map((row, index) => (
-                  <div key={row?.key}>
-                    <Card
-                      title={row?.name}
-                      bordered={true}
-                      style={{ width: 300 }}
-                      actions={[
-                        <Tooltip title="Edit fleet">
-                          <Button
-                            shape="circle"
-                            icon={<EditOutlined />}
-                            onClick={() => history.push("/detail")}
-                          />
-                        </Tooltip>,
-                        <Tooltip title="Edit fleet">
-                          <Button
-                            shape="circle"
-                            icon={<DeleteOutlined />}
-                            onClick={() =>
-                              dispatch(Creators.deleteFromFleet(row))
-                            }
-                          />
-                        </Tooltip>,
-                      ]}
-                    >
-                      <Meta
-                        title={<Tooltip title="Name">{row?.name}</Tooltip>}
-                        description={
-                          <div className="conter_holder">
-                            <Tooltip title="Manufacturer">
-                              <p>{row?.manufacturer}</p>
-                            </Tooltip>
-
-                            <Tooltip title="Model">
-                              <p>{row?.model}</p>
-                            </Tooltip>
-                          </div>
-                        }
+            {fleet?.data?.map((row, index) => (
+              <div key={row?.key}>
+                <Card
+                  title={row?.name}
+                  bordered={true}
+                  style={{ width: 300, borderRadius: 10 }}
+                  actions={[
+                    <Tooltip title="Edit fleet">
+                      <Button
+                        shape="circle"
+                        icon={<EditOutlined />}
+                        onClick={() => handleClick(row)}
                       />
-                    </Card>
-                    {console.log(index, "\n", fleet?.data?.length)}
-                    {index + 1 !== fleet?.data?.length && <Divider />}
-                  </div>
-                ))}
-              </Col>
-            </Row>
+                    </Tooltip>,
+                    <Tooltip title="Edit fleet">
+                      <Button
+                        danger
+                        shape="circle"
+                        icon={<DeleteOutlined />}
+                        onClick={() => dispatch(Creators.deleteFromFleet(row))}
+                      />
+                    </Tooltip>,
+                  ]}
+                >
+                  <Meta
+                    title={<Tooltip title="Name">{row?.name}</Tooltip>}
+                    description={
+                      <div className="conter_holder">
+                        <Tooltip title="Manufacturer">
+                          <p>{row?.manufacturer}</p>
+                        </Tooltip>
+
+                        <Tooltip title="Model">
+                          <p>{row?.model}</p>
+                        </Tooltip>
+                      </div>
+                    }
+                  />
+                </Card>
+                {index + 1 !== fleet?.data?.length && <Divider />}
+              </div>
+            ))}
           </div>
         </Card>
       </Col>
@@ -164,6 +159,8 @@ const Spaceships = () => {
     setCurrent(page);
     if (current !== page) fetchSpaceShips(page);
   };
+
+  const handleClick = (state) => navigate("/details", { state });
 
   return (
     <Spin spinning={loading} size="large" tip="loading">

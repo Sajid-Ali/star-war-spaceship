@@ -70,7 +70,7 @@ export const deleteFromFleet = (state = initialState, { spaceship }) => {
   );
   if (index > -1) {
     result.splice(index, 1);
-
+    message.success("Spaceship deleted successfully!");
     return {
       ...state,
       fleet: { ...state.fleet, data: result },
