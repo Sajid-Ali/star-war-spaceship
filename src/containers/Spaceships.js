@@ -129,7 +129,7 @@ const Spaceships = () => {
                     }
                   />
 
-                  <Tooltip title={`${row?.count} of ${row?.total_capacity}`}>
+                  <Tooltip title={`${row?.count} of ${row?.passengers}`}>
                     <Progress
                       strokeColor={{
                         "50%": "#108ee9",

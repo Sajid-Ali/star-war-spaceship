@@ -102,7 +102,7 @@ export const addPassenger = (state = initialState) => {
     selected: { data },
   } = state;
   const upatedValue = { ...data, count: data?.count + 1 };
-  if (upatedValue?.count > data?.total_capacity) {
+  if (upatedValue?.count > data?.passengers) {
     message.warning("You cannot add, spaceship capacity is full!");
     return state;
   }

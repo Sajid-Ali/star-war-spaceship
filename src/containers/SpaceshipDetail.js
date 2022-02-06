@@ -30,7 +30,7 @@ const SpaceshipDetail = () => {
     </p>
   );
 
-  const percentage = (data?.count / data?.total_capacity) * 100;
+  const percentage = (data?.count / data?.passengers) * 100;
   return (
     <Spin spinning={false} size="large" tip="loading">
       <div className="wrapper">
@@ -66,25 +66,28 @@ const SpaceshipDetail = () => {
             {renderInfo("Manufacturer", "magenta", data?.manufacturer)}
             {renderInfo("Price", "magenta", data?.cost_in_credits)}
             {renderInfo("Category", "magenta", data?.starship_class)}
-            {renderInfo("Avarage Time", "magenta", data?.consumables)}
+            {renderInfo("Avarage time", "magenta", data?.consumables)}
             {renderInfo("Model", "magenta", data?.model)}
-            {renderInfo("No Of Crew", "magenta", data?.crew)}
-            {renderInfo("No Of Passenger", "magenta", data?.count)}
+            {renderInfo("Capacity of crew", "magenta", data?.crew)}
+            {renderInfo("Capacity of passenger", "magenta", data?.passengers)}
+            {renderInfo("Number of passenger", "magenta", data?.count)}
             {renderInfo(
-              "Total Capacity (Crew + Passengers)",
+              "Total capacity (Crew + Passengers)",
               "magenta",
               data?.total_capacity
             )}
             <div style={styles.progress_bar}>
-              <Progress
-                strokeColor={{
-                  "0%": "red",
-                  "50%": "#108ee9",
-                  "100%": "#87d068",
-                }}
-                percent={percentage || 0}
-                status={percentage !== 100 && "exception"}
-              />
+              <Tooltip title={`${data?.count} of ${data?.passengers}`}>
+                <Progress
+                  strokeColor={{
+                    "0%": "red",
+                    "50%": "#108ee9",
+                    "100%": "#87d068",
+                  }}
+                  percent={percentage || 0}
+                  status={percentage !== 100 && "exception"}
+                />
+              </Tooltip>
               <Space>
                 <Tooltip title="Remove passenger">
                   <Button

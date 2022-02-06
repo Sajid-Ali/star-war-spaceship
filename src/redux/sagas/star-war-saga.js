@@ -18,7 +18,9 @@ export function* workerFetchList(action) {
         count: 0,
         percentage: 0,
         total_capacity,
+        crew: crew || 0,
         belongToFleet: false,
+        passengers: passengers || 0,
         key: `${index}-${row?.name}-${row?.model}`,
       };
       return formated_data;
