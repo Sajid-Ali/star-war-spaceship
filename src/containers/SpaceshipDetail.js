@@ -21,6 +21,13 @@ const SpaceshipDetail = () => {
   const {
     selected: { data },
   } = spaceship;
+
+  const renderInfo = (title, color, value) => (
+    <p>
+      {title} <Tag color={color || "magenta"}>{value}</Tag>
+    </p>
+  );
+
   const percentage = (data?.count / data?.total_capacity) * 100;
   return (
     <Spin spinning={false} size="large" tip="loading">
@@ -28,6 +35,7 @@ const SpaceshipDetail = () => {
         <div className="site-card-border-less-wrapper">
           <Card
             title={<h3>Star War Spaceships detail page</h3>}
+            style={styles.card_section}
             bordered={true}
             actions={[
               <div style={styles.action_button}>
@@ -41,23 +49,26 @@ const SpaceshipDetail = () => {
               </div>,
             ]}
           >
-            <Tag color="magenta">{data?.name}</Tag>
-            <p>{data?.manufacturer}</p>
-            <p>Price: ${data?.cost_in_credits}</p>
-            <p>{data?.consumables}</p>
-            <p>{data?.model}</p>
-            <p>{data?.starship_class}</p>
+            {renderInfo("Nmae", "magenta", data?.name)}
+            {renderInfo("Manufacturer", "magenta", data?.manufacturer)}
+            {renderInfo("Price", "magenta", data?.cost_in_credits)}
+            {renderInfo("Avarage Time", "magenta", data?.consumables)}
+            {renderInfo("Model", "magenta", data?.model)}
+            {renderInfo("Category", "magenta", data?.starship_class)}
+            {renderInfo("Total Capacity", "magenta", data?.total_capacity)}
+            {renderInfo("No Of Passenger", "magenta", data?.count)}
             <div style={styles.progress_bar}>
               <Progress
                 strokeColor={{
-                  "0%": "#108ee9",
+                  "0%": "red",
+                  "50%": "#108ee9",
                   "100%": "#87d068",
                 }}
                 percent={percentage || 0}
                 status={percentage !== 100 && "exception"}
               />
               <Space>
-                <Tooltip title="Add passenger">
+                <Tooltip title="Remove passenger">
                   <Button
                     shape="circle"
                     icon={<MinusCircleOutlined />}
@@ -65,7 +76,7 @@ const SpaceshipDetail = () => {
                   />
                 </Tooltip>
 
-                <Tooltip title="Remove passenger">
+                <Tooltip title="Add passenger">
                   <Button
                     shape="circle"
                     icon={<PlusCircleFilled />}
@@ -90,6 +101,11 @@ const styles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-evenly",
+  },
+  card_section: {
+    maxWidth: "50%",
+    margin: "auto",
+    boxShadow: "0 0 10px #cfcaca",
   },
 };
 
