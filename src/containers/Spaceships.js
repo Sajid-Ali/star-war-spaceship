@@ -3,14 +3,15 @@ import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  Spin,
-  Card,
   Row,
   Col,
-  Tooltip,
+  Spin,
+  Card,
   Button,
-  Pagination,
   Divider,
+  Tooltip,
+  Progress,
+  Pagination,
 } from "antd";
 import {
   PlusCircleFilled,
@@ -71,7 +72,7 @@ const Spaceships = () => {
   const renderFleetList = () => {
     return (
       <Col>
-        <Card style={styles.card_style} loading={loading}>
+        <Card style={{ ...styles.card_style, minWidth: 300 }} loading={loading}>
           <Meta title={<h2 style={styles.fleet_header}>Your Fleet</h2>} />
           <div style={styles.fleet_content}>
             {fleet?.data?.map((row, index) => (
@@ -112,6 +113,17 @@ const Spaceships = () => {
                       </div>
                     }
                   />
+
+                  <Tooltip title={`${row?.count} of ${row?.total_capacity}`}>
+                    <Progress
+                      strokeColor={{
+                        "50%": "#108ee9",
+                        "100%": "#87d068",
+                      }}
+                      percent={row?.percentage || 0}
+                      status={row?.percentage !== 100 && "exception"}
+                    />
+                  </Tooltip>
                 </Card>
                 {index + 1 !== fleet?.data?.length && <Divider />}
               </div>
