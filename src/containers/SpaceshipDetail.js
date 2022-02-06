@@ -52,11 +52,10 @@ const SpaceshipDetail = () => {
                 <Button
                   type="primary"
                   size="middle"
-                  onClick={() =>{
-                    dispatch(Creators.saveToFleet({ ...data, percentage }))
-                    navigate(-1)
-                  }
-                  }
+                  onClick={() => {
+                    dispatch(Creators.saveToFleet({ ...data, percentage }));
+                    navigate(-1);
+                  }}
                 >
                   Save
                 </Button>
@@ -66,11 +65,16 @@ const SpaceshipDetail = () => {
             {renderInfo("Nmae", "magenta", data?.name)}
             {renderInfo("Manufacturer", "magenta", data?.manufacturer)}
             {renderInfo("Price", "magenta", data?.cost_in_credits)}
+            {renderInfo("Category", "magenta", data?.starship_class)}
             {renderInfo("Avarage Time", "magenta", data?.consumables)}
             {renderInfo("Model", "magenta", data?.model)}
-            {renderInfo("Category", "magenta", data?.starship_class)}
-            {renderInfo("Total Capacity", "magenta", data?.total_capacity)}
+            {renderInfo("No Of Crew", "magenta", data?.crew)}
             {renderInfo("No Of Passenger", "magenta", data?.count)}
+            {renderInfo(
+              "Total Capacity (Crew + Passengers)",
+              "magenta",
+              data?.total_capacity
+            )}
             <div style={styles.progress_bar}>
               <Progress
                 strokeColor={{
