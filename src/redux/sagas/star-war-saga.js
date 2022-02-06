@@ -16,6 +16,7 @@ export function* workerFetchList(action) {
       const formated_data = {
         ...row,
         count: 0,
+        percentage: 0,
         total_capacity,
         belongToFleet: false,
         key: `${index}-${row?.name}-${row?.model}`,

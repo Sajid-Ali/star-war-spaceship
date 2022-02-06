@@ -12,6 +12,7 @@ const { Types, Creators } = createActions({
 
   addPassenger: [],
   removePassenger: [],
+  saveToFleet: ["spaceship"],
 });
 
 export const StarWarTypes = Types;
@@ -111,6 +112,19 @@ export const addPassenger = (state = initialState) => {
   };
 };
 
+export const saveToFleet = (state = initialState, { spaceship }) => {
+  let result = state.fleet.data;
+  const index = state?.fleet?.data?.findIndex(
+    (row) => row.key === spaceship?.key
+  );
+  result[index] = spaceship;
+  message.success("Updated details successfully!");
+  return {
+    ...state,
+    fleet: { ...state.fleet, data: result },
+  };
+};
+
 export const removePassenger = (state = initialState) => {
   const {
     selected: { data },
@@ -136,6 +150,7 @@ export const HANDLERS = {
   [Types.SET_SELECTED_SPACESHIP]: setSelectedSpaceship,
   [Types.ADD_PASSENGER]: addPassenger,
   [Types.REMOVE_PASSENGER]: removePassenger,
+  [Types.SAVE_TO_FLEET]: saveToFleet,
 };
 
 export const reducer = createReducer(initialState, HANDLERS);

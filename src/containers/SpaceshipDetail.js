@@ -10,12 +10,14 @@ import {
   Divider,
   Progress,
 } from "antd";
+import { useNavigate } from "react-router-dom";
 import { PlusCircleFilled, MinusCircleOutlined } from "@ant-design/icons";
 
 import { getSelectedSpaceship } from "../redux/selectors/star-war-selectors";
 import Creators from "../redux/Reducers/star-war-reducers";
 
 const SpaceshipDetail = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const spaceship = useSelector(getSelectedSpaceship);
   const {
@@ -39,11 +41,23 @@ const SpaceshipDetail = () => {
             bordered={true}
             actions={[
               <div style={styles.action_button}>
-                <Button type="primary" size="middle">
+                <Button
+                  type="primary"
+                  size="middle"
+                  onClick={() => navigate(-1)}
+                >
                   Cancel
                 </Button>
                 <Divider type="vertical" orientation="center" />
-                <Button type="primary" size="middle">
+                <Button
+                  type="primary"
+                  size="middle"
+                  onClick={() =>{
+                    dispatch(Creators.saveToFleet({ ...data, percentage }))
+                    navigate(-1)
+                  }
+                  }
+                >
                   Save
                 </Button>
               </div>,
