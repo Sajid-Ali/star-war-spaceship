@@ -1,6 +1,15 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Spin, Card, Tag, Progress, Tooltip, Button, Space } from "antd";
+import {
+  Tag,
+  Spin,
+  Card,
+  Space,
+  Button,
+  Tooltip,
+  Divider,
+  Progress,
+} from "antd";
 import { PlusCircleFilled, MinusCircleOutlined } from "@ant-design/icons";
 
 import { getSelectedSpaceship } from "../redux/selectors/star-war-selectors";
@@ -20,7 +29,17 @@ const SpaceshipDetail = () => {
           <Card
             title={<h3>Star War Spaceships detail page</h3>}
             bordered={true}
-            style={{}}
+            actions={[
+              <div style={styles.action_button}>
+                <Button type="primary" size="middle">
+                  Cancel
+                </Button>
+                <Divider type="vertical" orientation="center" />
+                <Button type="primary" size="middle">
+                  Save
+                </Button>
+              </div>,
+            ]}
           >
             <Tag color="magenta">{data?.name}</Tag>
             <p>{data?.manufacturer}</p>
@@ -57,7 +76,6 @@ const SpaceshipDetail = () => {
             </div>
           </Card>
         </div>
-        <div className="site-card-wrapper"></div>
       </div>
     </Spin>
   );
@@ -67,6 +85,11 @@ const styles = {
   progress_bar: {
     display: "flex",
     alignItems: "center",
+  },
+  action_button: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-evenly",
   },
 };
 
